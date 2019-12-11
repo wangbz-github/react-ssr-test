@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import Home from '@pages/Home';
+import About from '@pages/About';
 
-function App(props) {
-  const [count, setCount] = useState(0);
+function App() {
   return (
     <div>
-      <h1>Hello {props.title}!</h1>
-      <h2>点击了{count}次</h2>
-      <button onClick={() => { setCount(count + 1) }}>计数器</button>
+      <Route path="/" exact component={Home} />
+      <Route path="/about" exact component={About} />
     </div>
   );
 }
 
-export default <App title="React SSR Test" />;
+export default App;
