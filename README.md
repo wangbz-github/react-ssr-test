@@ -1,13 +1,15 @@
-#React SSR Tese
+# react-ssr-test
 ## 第一节
 
-###1. SSR是什么？
+1.SSR是什么？
+
     在SSR出现之前，页面渲染要之前需要加载编译好的js文件然后在浏览器端渲染HTML，期间还有可能请求异步数据。这样，用户在看到真是的DOM结构之前会出现一段时间的白屏，影响用户体验，也会影响SEO优化。
     SSR是指，将同一个组件渲染为服务器端的 HTML字符串，将它们直接发送到浏览器。
-###2.同构应用
- 在webpack打包时，通过两个入口分别打包server端和client端的渲染文件。在用户首次访问时，在node中间层通过server.bundle.js将需要用到的组件渲染为HTMl字符串发送到浏览器（SSR）；在之后的用户操作中通过client.bundle.js来响应用户事件和获取数据（CSR）；这种SSR和CSR相结合的方式称之为同构。
- 
 
+2.同构应用
+
+    在webpack打包时，通过两个入口分别打包server端和client端的渲染文件。在用户首次访问时，在node中间层通过server.bundle.js将需要用到的组件渲染为HTMl字符串发送到浏览器（SSR）；在之后的用户操作中通过client.bundle.js来响应用户事件和获取数据（CSR）；这种SSR和CSR相结合的方式称之为同构。
+ 
 ```javascript
 //两个入口的公用文件 app.js
 import React, { useState } from 'react';
