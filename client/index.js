@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from '../src/App';
+import { BrowserRouter, Route } from 'react-router-dom';
+// import App from '../src/App';
+import routers from '../src/App';
 import { Provider } from 'react-redux';
-import store from '@store/store'
-
+import { getClientStore } from '@store/store'
+const store = getClientStore();
 const Page = (
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      {/* <App /> */}
+      {routers.map(router => (<Route {...router} key={router.path} />))}
     </BrowserRouter>
   </Provider>
 );

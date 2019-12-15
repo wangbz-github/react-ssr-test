@@ -1,6 +1,9 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
+
+app.use(morgan('dev'));
 
 app.get('/api/course/list', (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -16,6 +19,19 @@ app.get('/api/course/list', (req, res) => {
       { name: '化学', id: 4 },
       { name: '生物', id: 5 },
     ]
+  });
+});
+
+app.get('/api/user/info', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,POST');
+  res.header('Content-Type', 'application/json;charset=utf-8');
+  res.json({
+    code: 0,
+    info: {
+      name: 'Jerry',
+      course: '物理'
+    }
   });
 });
 
