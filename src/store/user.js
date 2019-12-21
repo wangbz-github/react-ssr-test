@@ -1,5 +1,3 @@
-import axios from '@utils/axios';
-
 // action type
 const GET_INFO = 'USER/INFO';
 
@@ -17,7 +15,7 @@ const defaultState = {
 export const getUserInfo = server => {
   //getState? axiosInstance?
   return (dispatch, getState, axiosInstance) => {
-    return axios.get('/api/user/info')
+    return axiosInstance.get('/api/user/info')
       .then(res => {
         const { info } = res.data;
         console.log('用户', info)

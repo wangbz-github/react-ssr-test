@@ -1,5 +1,5 @@
 # react-ssr-test
-## 第一节
+### 第一节
 
 1.SSR是什么？
 
@@ -57,7 +57,7 @@ app.get('/', (req, res) => {
 //注水 hydrate的作用： ReactDOM 复用 ReactDOMServer 服务端渲染的内容时尽可能保留结构，并补充事件绑定等 Client 特有内容的过程。
 ReactDom.hydrate(App, document.getElementById('root'));
 ```
-## 第二节 & 第三节
+### 第二节 & 第三节
 1.使用concurrently，将多条命令合并执行，提升开发效率
 ```json
 "scripts": {
@@ -242,10 +242,44 @@ app.use('/api', proxy('http://localhost:9090', {
 })); //client请求代理
 ```
 
-## 第三次作业讲解
+### 第三次作业讲解
 1.利用thunk的静态方法withExtraArgument将 redux 和 axios 结合；
 2.将中间件 express-http-proxy 替换为 http-proxy-middleware，前者不好用；
 
+### 第四节
+#### 4.1. 服务端加载css时
+因为没有document对象，所以不能使用style-loader。服务端使用`isomorphic-style-loader`
 
-## TODO
+#### 4.2.服务端路由状态码控制
+1.设置一个组件负责拦截匹配不到的路由；
+```javascript
+{
+  component: NotFound
+}
+```
+2.在server端staticRouter上传入上下文context；
+```javascript
+const staticContext = {};
+const content = renderToString(
+    <Provider store={store}>
+      <StaticRouter location={req.url} context={staticContext}>
+        {/* <App /> */}
+        {routers.map(router => (<Route {...router} key={router.path} />))}
+      </StaticRouter>
+    </Provider>
+);
+```
+3.在组件渲染是将状态码写入上下文context，服务端就能获取到状态码并进行下一步处理
+`注：组件处理状态码见NotFound.js`
+4.服务端处理
+```javascript
+if (staticContext.statusCode) {
+    res.status(staticContext.statusCode);
+}
+
+res.send(render({ content, store }));
+```
+
+
+### TODO
 1.了解redux-thunk源码，结合使用axios配置；

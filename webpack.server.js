@@ -10,5 +10,13 @@ module.exports = merge(baseConfig, {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build')
   },
-  externals: [nodeExternals()]
+  externals: [nodeExternals()],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        loader: ['isomorphic-style-loader', 'css-loader']
+      }
+    ]
+  }
 });
