@@ -1,4 +1,14 @@
-export const render = function ({ content, store }) {
+const path = require('path');
+const fs = require('fs');
+
+
+export const csrRender = function () {
+  const fileName = path.resolve(process.cwd(), 'public/index.csr.html');
+  return fs.readFileSync(fileName, 'utf-8');
+};
+
+
+export const render = function ({ content, store, styles }) {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -7,8 +17,12 @@ export const render = function ({ content, store }) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>React SSR Test</title>
+<style>
+  ${styles.join('\n')}
+</style>
 </head>
 <body>
+<!-- 服务端渲染 -->
 <div id="root">${content}</div>
 <script>
   window.__context = ${JSON.stringify(store.getState())};

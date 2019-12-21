@@ -8,7 +8,7 @@ import proxy from 'http-proxy-middleware';
 import morgan from 'morgan';
 import routers from '../src/App';
 import { getServerStore } from '@store/store';
-import { render, promiseFinally } from '@utils/util.js';
+import { render, promiseFinally, csrRender } from '@utils/util.js';
 const app = express();
 
 app.use(morgan('dev')); //日志
@@ -22,6 +22,13 @@ app.use(
 app.use(express.static('public'));
 
 app.get('*', (req, res) => {
+
+  if (req.query._mode === 'csr') {
+    console.log('url参数开启SEO降级');
+    const html = csrRender();
+    res.send(html);
+    return;
+  }
 
   const promises = [];
   const store = getServerStore();
@@ -38,13 +45,15 @@ app.get('*', (req, res) => {
 
   promiseFinally(promises).then(() => {
     try {
-      const staticContext = {};
+      const staticContext = {
+        css: [] //用于接收组件内样式
+      };
       const content = renderToString(
         <Provider store={store}>
           <StaticRouter location={req.url} context={staticContext}>
             {/* <App /> */}
             <Switch>
-              {routers.map(router => (<Route {...router} key={router.path} />))}
+              {routers.map(router => (<Route {...router} key={router.key} />))}
             </Switch>
           </StaticRouter>
         </Provider>
@@ -59,8 +68,9 @@ app.get('*', (req, res) => {
         res.redirect(301, staticContext.url);
       }
 
-      res.send(render({ content, store }));
+      res.send(render({ content, store, styles: staticContext.css }));
     } catch (err) {
+      console.log(err);
       res.send('500 Internal Server Error!');
     }
   }).catch((err) => {

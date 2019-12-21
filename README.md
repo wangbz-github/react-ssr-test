@@ -279,7 +279,38 @@ if (staticContext.statusCode) {
 
 res.send(render({ content, store }));
 ```
-
+### 第五节
+#### 5.1. SEO降级
+1.当需要时开启降级（url参数开启、服务器配置，服务器负载过高、SSR报错）;
+2.如何开启？同传统CSR一样，使用webpack-html-plugin打包好客户端文件，当需要SEO降级时，读取html文件直接返回给客户端；
+3.客户端通过标志字段window.__context来判断是否为CSR，并选择合适的渲染方法（hydrate或render）;
+`注：window.__context是用来同步server和client的store数据的载体`
+#### 5.2 css细节优化
+1.webpack配置css-loader为module方式加载
+```javascript
+rules: [
+  {
+    test: /\.css$/,
+    loader: ['style-loader', {
+      loader: 'css-loader',
+      options: {
+        modules: true
+      }
+    }]
+  }
+]
+```
+2.组件内将css传入staticRouter的上下文context中
+```javascript
+if (props.staticContext) {
+    //style._getCss() 为服务端独有
+    props.staticContext.css.push(style._getCss());
+}
+```
+3.server端将css接收，并拼接成字符串返回客户端。
+#### 5.3 高阶组件优化css
+1.用高阶组件实现对上面context逻辑的封装,详见utils/withStyles.js;
+2.使用isomorphic-style-loader的withStyles,详见[github](https://github.com/kriasoft/isomorphic-style-loader)
 
 ### TODO
 1.了解redux-thunk源码，结合使用axios配置；

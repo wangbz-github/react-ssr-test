@@ -25,24 +25,29 @@ export default [
   {
     path: '/',
     exact: true,
-    component: Home
+    component: Home,
+    key: '/'
   },
   {
     path: '/about',
     exact: true,
-    component: About
+    component: About,
+    key: '/about'
   },
   {
     path: '/user',
     exact: true,
-    component: User
+    component: User,
+    key: '/user'
   },
   {
     path: '/login',
     exact: true,
-    component: Login
+    component: Login,
+    key: '/login'
   },
   {
-    component: NotFound
+    component: NotFound,
+    key: '/notfound'
   }
 ]

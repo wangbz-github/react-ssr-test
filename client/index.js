@@ -10,11 +10,17 @@ const Page = (
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        {routers.map(router => (<Route {...router} key={router.path} />))}
+        {routers.map(router => (<Route {...router} key={router.key} />))}
       </Switch>
     </BrowserRouter>
   </Provider>
 );
 
-//注水 客户端入口
-ReactDom.hydrate(Page, document.getElementById('root'));
+if (window.__context) {
+  //注水 客户端入口
+  ReactDom.hydrate(Page, document.getElementById('root'));
+} else {
+  ReactDom.render(Page, document.getElementById('root'));
+}
+
+
