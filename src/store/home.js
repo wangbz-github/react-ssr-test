@@ -1,5 +1,3 @@
-import axios from '@utils/axios';
-
 // action type
 const GET_LIST = 'HOME/LIST';
 
@@ -17,7 +15,7 @@ const defaultState = {
 export const getCourseList = server => {
   //getState? axiosInstance?
   return (dispatch, getState, axiosInstance) => {
-    return axios.get('/api/course/list')
+    return axiosInstance.get('/api/course/list')
       .then(res => {
         const { list } = res.data;
         console.log('课程', list)

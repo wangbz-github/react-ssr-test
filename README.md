@@ -241,4 +241,11 @@ app.use('/api', proxy('http://localhost:9090', {
   },
 })); //client请求代理
 ```
-    
+
+## 第三次作业讲解
+1.利用thunk的静态方法withExtraArgument将 redux 和 axios 结合；
+2.将中间件 express-http-proxy 替换为 http-proxy-middleware，前者不好用；
+
+
+## TODO
+1.了解redux-thunk源码，结合使用axios配置；

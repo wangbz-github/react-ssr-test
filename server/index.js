@@ -3,9 +3,9 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import express from 'express';
-import proxy from 'express-http-proxy';
+import proxy from 'http-proxy-middleware';
+
 import morgan from 'morgan';
-// import App from '../src/App';
 import routers from '../src/App';
 import { getServerStore } from '@store/store';
 
@@ -67,13 +67,11 @@ const app = express();
 
 app.use(morgan('dev')); //日志
 
-app.use('/api', proxy('http://localhost:9090', {
-  proxyReqPathResolver: function (req, res) {
-    //这个代理会把匹配到的url（下面的 ‘/api’等）去掉，转发过去直接404，这里手动加回来，
-    req.url = req.baseUrl + req.url;
-    return require('url').parse(req.url).path;
-  },
-})); //client请求代理
+//client请求代理
+app.use(
+  '/api',
+  proxy({ target: 'http://localhost:9090', changeOrigin: true })
+);
 
 app.use(express.static('public'));
 
