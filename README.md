@@ -312,5 +312,14 @@ if (props.staticContext) {
 1.用高阶组件实现对上面context逻辑的封装,详见utils/withStyles.js;
 2.使用isomorphic-style-loader的withStyles,详见[github](https://github.com/kriasoft/isomorphic-style-loader)
 
+5.3.1 withStyles引入的问题
+在页面内部，为了在server端渲染异步数据，我们在页面组件上设置了静态方法，但是由于withStyles没有将静态方法复制，导致不能再server端渲染数据 
+```javascript
+// pages/home/index.js
+Home.loadData = store => store.dispatch(getCourseList());
+```
+解决方法：React官方方案[复制静态方法](https://react.docschina.org/docs/higher-order-components.html#static-methods-must-be-copied-over)
+
+
 ### TODO
 1.了解redux-thunk源码，结合使用axios配置；
