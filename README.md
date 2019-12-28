@@ -320,6 +320,12 @@ Home.loadData = store => store.dispatch(getCourseList());
 ```
 解决方法：React官方方案[复制静态方法](https://react.docschina.org/docs/higher-order-components.html#static-methods-must-be-copied-over)
 
+### 第六节 其他的SSR实现思路
+#### 6.1 [puppeteer](https://github.com/puppeteer/puppeteer)实现ssr 
+当已有的项目已经很成熟、很复杂，不能进行大规模同构时，可以实现一些简单的静态资源返回，达到SEO优化的目的。利用puppeteer先抓取网页内容，然后返回客户端，可以实现伪SSR。
+#### 6.2 [prerender](https://github.com/prerender/prerender)/[prerender-spa-plugin](https://github.com/chrisvfritz/prerender-spa-plugin)
+使用puppeteer实现SSR的时候，每次请求页面都会先去抓取网页内容，这样会有一定的延时。这时我们可以使用prerender或prerender-spa-plugin将所有路由提前渲染成html文件，访问时直接返回。
+#### 6.3 使用成熟框架[nextjs](https://nextjs.org/)
 
 ### TODO
 1.了解redux-thunk源码，结合使用axios配置；

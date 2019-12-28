@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import express from 'express';
 import proxy from 'http-proxy-middleware';
 
+import config from './config.js';
 import morgan from 'morgan';
 import routers from '../src/App';
 import { getServerStore } from '@store/store';
@@ -25,6 +26,13 @@ app.get('*', (req, res) => {
 
   if (req.query._mode === 'csr') {
     console.log('url参数开启SEO降级');
+    const html = csrRender();
+    res.send(html);
+    return;
+  }
+
+  if (config.csr) {
+    console.log('csr全局开关打开');
     const html = csrRender();
     res.send(html);
     return;
@@ -78,6 +86,6 @@ app.get('*', (req, res) => {
   });
 });
 
-app.listen(9012, () => {
+app.listen(9093, () => {
   console.log('监听成功');
 });

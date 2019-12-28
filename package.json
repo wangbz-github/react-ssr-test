@@ -7,7 +7,7 @@
     "dev:client": "webpack --config webpack.client.js --watch",
     "dev:server": "webpack --config webpack.server.js --watch",
     "dev:start": "nodemon --watch build --exec node \"./build/bundle.js\"",
-    "start": "concurrently \"npm run dev:client\" \"npm run dev:server\" \"npm run dev:start\""
+    "start": "concurrently \"npm run dev:client\" \"npm run dev:server\" \"npm run dev:start\" \"nodemon mock.js\""
   },
   "keywords": [],
   "author": "",
@@ -33,6 +33,7 @@
     "express": "^4.17.1",
     "hoist-non-react-statics": "^3.3.1",
     "morgan": "^1.9.1",
+    "puppeteer": "^2.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
